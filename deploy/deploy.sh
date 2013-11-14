@@ -98,6 +98,8 @@ elif [ "$image_type" == "shark" ]; then
     SHARK_VERSION="$image_version"
     if [ "$SHARK_VERSION" == "0.8.0" ]; then
         SPARK_VERSION="0.8.0"
+    elif [ "$SHARK_VERSION" == "0.9.0-SNAPSHOT" ]; then
+	SPARK_VERSION="0.9.0-incubating-SNAPSHOT"
     else
         SPARK_VERSION="0.7.3"
     fi
