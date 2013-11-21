@@ -1,0 +1,42 @@
+*** SharkBuild.scala	2013-11-20 09:38:19.945853000 -0800
+--- DockerSharkBuild.scala	2013-11-20 09:42:47.565853000 -0800
+***************
+*** 110,117 ****
+      ),
+  
+      libraryDependencies ++= Seq(
+!       "org.apache.spark" %% "spark-core" % SPARK_VERSION,
+!       "org.apache.spark" %% "spark-repl" % SPARK_VERSION,
+        "com.google.guava" % "guava" % "14.0.1",
+        "org.apache.hadoop" % "hadoop-client" % hadoopVersion excludeAll(excludeJackson, excludeNetty, excludeAsm) force(),
+        // See https://code.google.com/p/guava-libraries/issues/detail?id=1095
+--- 110,117 ----
+      ),
+  
+      libraryDependencies ++= Seq(
+!       "org.apache.spark" %% "spark-core" % SPARK_VERSION excludeAll(excludeNetty),
+!       "org.apache.spark" %% "spark-repl" % SPARK_VERSION excludeAll(excludeNetty),
+        "com.google.guava" % "guava" % "14.0.1",
+        "org.apache.hadoop" % "hadoop-client" % hadoopVersion excludeAll(excludeJackson, excludeNetty, excludeAsm) force(),
+        // See https://code.google.com/p/guava-libraries/issues/detail?id=1095
+***************
+*** 128,134 ****
+        "net.java.dev.jets3t" % "jets3t" % "0.7.1",
+        "com.novocode" % "junit-interface" % "0.8" % "test") ++
+        (if (YARN_ENABLED) Some("org.apache.spark" %% "spark-yarn" % SPARK_VERSION) else None).toSeq ++
+!       (if (TACHYON_ENABLED) Some("org.tachyonproject" % "tachyon" % "0.3.0" excludeAll(excludeKyro, excludeHadoop, excludeCurator, excludeJackson, excludeNetty, excludeAsm)) else None).toSeq
+    ) ++ org.scalastyle.sbt.ScalastylePlugin.Settings
+  
+    def assemblyProjSettings = Seq(
+--- 128,138 ----
+        "net.java.dev.jets3t" % "jets3t" % "0.7.1",
+        "com.novocode" % "junit-interface" % "0.8" % "test") ++
+        (if (YARN_ENABLED) Some("org.apache.spark" %% "spark-yarn" % SPARK_VERSION) else None).toSeq ++
+!       (if (TACHYON_ENABLED) Some("org.tachyonproject" % "tachyon" % "0.3.0" excludeAll(excludeKyro, excludeHadoop, excludeCurator, excludeJackson, excludeNetty, excludeAsm)) else None).toSeq,
+! 
+!       // This is for testing Genomics Shark applications. To be removed
+!       // in the final Docker image
+!       "edu.berkeley.cs.amplab.adam" % "adam-commands" % "0.5.0-SNAPSHOT"
+    ) ++ org.scalastyle.sbt.ScalastylePlugin.Settings
+  
+    def assemblyProjSettings = Seq(
